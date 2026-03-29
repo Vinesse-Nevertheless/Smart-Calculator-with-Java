@@ -1,0 +1,9 @@
+# IDE settings
+.idea/
+*.iml
+
+# Compiled Java class files
+*.class
+out/
+build/
+bin/
