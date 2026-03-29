@@ -1,0 +1,14 @@
+type: edu
+files:
+  - name: src/calculator/Main.java
+    visible: true
+    learner_created: false
+  - name: test/Test.java
+    learner_created: false
+feedback_link: https://hyperskill.org/projects/42/stages/227/implement#comment
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Sun, 29 Mar 2026 04:57:38 UTC"
+record: 8

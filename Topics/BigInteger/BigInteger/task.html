@@ -1,0 +1,57 @@
+<div class="step-text">
+<h5 id="using-large-numbers-in-java" style="text-align: center;">Using large numbers in Java</h5>
+<p>As you might remember, the standard primitive integer types cannot store very large numbers. It is not possible to assign the following large number to a variable of the type <code class="language-java">int</code> (or even <code class="language-java">long</code>):</p>
+<pre><code class="language-java">int y = 62957291795228763406253098; // compilation-error: integer number too large</code></pre>
+<p>That is also the reason why operations with numbers can sometimes lead to <strong><a class="theory-lookup not-relevant" href="/learn/step/3508" target="_blank" title="In Java, type overflow is a situation that occurs when a value is too large to be stored in a variable of a particular data type, causing it to overflow and wrap around to a smaller value. | This can happen with integer types when the value exceeds their maximum positive or negative range, or with floating-point types when the value exceeds their maximum precision. Type overflow can lead to unexpected results and should be avoided by using an appropriate data type and performing range checks. Explicit casting, also known as narrowing, is done manually by the programmer and can result in type overflow if the target type cannot store the full value of the source type.">type overflow</a></strong>. For example, check out the following code:</p>
+<pre><code class="language-java">int a = Integer.MAX_VALUE; // 2147483647
+a += 2; // -2147483647</code></pre>
+<p>Fortunately, the Java Class Library provides a class called <code class="language-java">BigInteger</code> for processing very large numbers (both positive and negative). The size of a stored number is only limited by the available memory.</p>
+<p>The <code class="language-java">BigInteger</code> class is <strong>immutable</strong> which means methods of the class return new instances instead of changing existing ones.</p>
+<p>Although this type can store any integers, including small numbers, <code class="language-java">BigInteger</code> should only be used if it is absolutely necessary. Using it is less intuitive compared to built-in types and, more importantly, there is always a performance hit associated with its use. <code class="language-java">BigInteger</code> operations are substantially slower than operations on built-in integer types.</p>
+<h5 id="creating-objects-of-biginteger" style="text-align: center;">Creating objects of BigInteger</h5>
+<p>The class <code class="language-java">BigInteger</code> belongs to the <code class="language-java">java.math</code> package. We import it by writing the following statement:</p>
+<pre><code class="language-java">import java.math.BigInteger;</code></pre>
+<p>Here is an instance of the class that stores the large number presented above:</p>
+<pre><code class="language-java">BigInteger number = new BigInteger("62957291795228763406253098");
+</code></pre>
+<p>It is also possible to create an instance by passing a long value to the method <code class="language-java">valueOf</code>:</p>
+<pre><code class="language-java">BigInteger number = BigInteger.valueOf(1_000_000_000);</code></pre>
+<p>In addition, the class has several useful constants:</p>
+<pre><code class="language-java">BigInteger zero = BigInteger.ZERO; // 0
+BigInteger one = BigInteger.ONE;   // 1
+BigInteger ten = BigInteger.TEN;   // 10</code></pre>
+<p>Using them is a good practice because constants allow you to reuse an already created object. This is particularly important considering that instance of <code class="language-java">BigInteger</code> is actually quite big. Except for a memory optimization point, the code with constants is easier to read.</p>
+<p>Compare the code below:</p>
+<pre><code class="language-java">if (something) {
+    return new BigInteger("1");
+}</code></pre>
+<p>and its analog with constants:</p>
+<pre><code class="language-java">if (something) {
+    return BigInteger.ONE;
+}</code></pre>
+<p>Remember it and try to use built-In <code class="language-java">BigInteger</code> constants whenever possible.</p>
+<h5 id="methods-of-biginteger" style="text-align: center;">Methods of BigInteger</h5>
+<p>The class has a set of non-<a class="theory-lookup not-relevant" href="/learn/step/3508" target="_blank" title="In Java, a static method is a method that is associated with a class rather than an instance of a class. | It can be accessed directly using the class name and does not require the creation of a class instance. A static method can only access static fields and other static methods within the same class, and cannot refer to the `this` keyword because there is no instance context. Static methods are often used as utility methods that provide common functionality for the entire project. They can be called from instance methods, but not the other way around.">static methods</a> to perform all standard <a class="theory-lookup not-relevant" href="/learn/step/3508" target="_blank" title="In Java, arithmetic operations are mathematical calculations that can be performed using arithmetic operators. | These operators include addition (+), subtraction (-), multiplication (\*), division (/), and modulus or remainder (%) operators. Arithmetic operations take two values or operands, with the exception of unary operators such as unary plus (+) and unary minus (-), which take a single value. The order of operation follows the standard arithmetic rules, with multiplication and division having a higher priority level than addition and subtraction. Parentheses can be used to specify the order of execution and for clarity. The unary plus operator indicates a positive value, while the unary minus operator negates a value or an expression.">arithmetic operations</a>. The following example demonstrates the addition.</p>
+<pre><code class="language-java">BigInteger eleven = ten.add(one);
+System.out.println(eleven); // 11
+
+System.out.println(ten); // 10, it has not changed!</code></pre>
+<p>Keep in mind, that the arithmetic methods do not change instances but create a new one.</p>
+<p>Other arithmetic methods (<a class="theory-lookup not-relevant" href="/learn/step/3508" target="_blank" title="In Java, subtraction is a binary arithmetic operation that requires two operands. | It is used to determine the difference between two numbers. The subtraction operation can be performed using the '-' operator. For example, in the expression `a - b`, `a` is the minuend and `b` is the subtrahend. It's important to note that the unary minus operator, which is used to indicate a negative value for any type of numeric literal, is different from the subtraction operation.">subtraction</a>, multiplication,  integer division) are listed below:</p>
+<pre><code class="language-java">BigInteger nine = ten.subtract(BigInteger.ONE); // 10 - 1 = 9
+BigInteger oneHundredTen = ten.multiply(eleven); // 10 * 11 = 110
+BigInteger twelve = oneHundredTen.divide(nine); // integer division: 12</code></pre>
+<p>The method <code class="language-java">negate</code> returns a new <code class="language-java">BigInteger</code> with the changed sign, like this:</p>
+<pre><code class="language-java">nine.negate(); // -9</code></pre>
+<p>The method <code class="language-java">divideAndRemainder</code> returns an array consisting of two numbers: the result of integer division and the remainder.</p>
+<pre><code class="language-java">BigInteger[] pair = oneHundredTen.divideAndRemainder(nine); // 12 and 2
+</code></pre>
+<p>The class also provides methods for performing more complex math operations. The method <code class="language-java">abs</code> returns a new <code class="language-java">BigInteger</code> whose value is the absolute value of this <code class="language-java">BigInteger</code>.</p>
+<pre><code class="language-java">BigInteger number = new BigInteger("-8");
+System.out.println(number.abs()); // 8</code></pre>
+<p>The method <code class="language-java">gcd</code> returns the greatest common divisor of two numbers.</p>
+<pre><code class="language-java">BigInteger three = BigInteger.valueOf(3);
+BigInteger six = BigInteger.valueOf(6);
+System.out.println(three.gcd(six)); // 3</code></pre>
+<p>The class has methods for performing <a class="theory-lookup not-relevant" href="/learn/step/3508" target="_blank" title="In Java, a bitwise AND is a binary operator that compares each bit of the first operand to the corresponding bit of the second operand. | If both bits are 1, the corresponding result bit is set to 1. Otherwise, the result bit is set to 0. It is denoted by the &amp; symbol. Bitwise AND operation is performed on integer operands, comparing each bit of the first operand to the corresponding bit of the second operand. If both bits are 1, the corresponding result bit is set to 1, otherwise, the result bit is set to 0.">bitwise and</a> bitshift operations as well, but we do not consider them here.</p>
+</div>
