@@ -46,3 +46,12 @@ Significant effort was placed on the validation pipeline. I focused on ensuring 
 ```/help ``` Displays the manual.
 
 ```/exit ``` Safely terminates the program.
+
+
+## License
+This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) License - see the LICENSE file for details.
+
+![Java](https://img.shields.io/badge/language-Java-orange)
+![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-blue)
+![AI-No-Training](https://img.shields.io/badge/AI-No--Training-red)
+
